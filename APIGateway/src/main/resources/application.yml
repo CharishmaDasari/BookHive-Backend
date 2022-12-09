@@ -1,0 +1,37 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka
+  instance:
+    hostname: localhost
+server:
+  port: 9001
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      routes:
+        - id: useraccount-service
+          uri:
+            lb://useraccount-service
+          predicates:
+           - Path=/api/v1/accounts/**
+           
+        - id: product-service
+          uri: 
+            lb://product-service
+          predicates:
+           - Path=/api/v1/product/**
+           
+        - id: order-service
+          uri: 
+            lb://order-service
+          predicates:
+           - Path=/api/v1/orders/**
+           
+        - id: cart-ervice
+          uri: 
+            lb://cart-service
+          predicates:
+           - Path=api/v1/cart/**
